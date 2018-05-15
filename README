@@ -1,0 +1,58 @@
+0. Preconditions:
+    1. Install requirements
+        virtualenv -p python3.6 venv
+$       ./venv/bin/pip install -r requirements.txt
+
+    2. Set environment variables
+
+    3. Run it
+
+1. Test running example:
+    script = ./env/bin/py.test
+    pytest -v -m "redir - single + case_1 and case_2 and not case_3":
+        +: будут выполнены все тесты, где встречается тэг single или case_1
+        -: будут выполнены все тесты, где есть тэг dish и нет тэга single и все тесты где есть тэг single и нет тэга dish
+        and: будт выполнены тесты, где присутствует тэг case_1 и case_2
+        and not: будут выполнены тесты, где не присутствует тег case_3
+
+    --assert=MODE         control assertion debugging tools. 'plain' performs no
+                          assertion debugging. 'reinterp' reinterprets assert
+                          statements after they failed to provide assertion
+                          expression information. 'rewrite' (the default)
+                          rewrites assert statements in test modules on import
+                          to provide assert expression information.
+
+    -r chars              show extra test summary info as specified by chars
+                          (f)ailed, (E)error, (s)skipped, (x)failed, (X)passed
+                          (w)pytest-warnings (p)passed, (P)passed with output,
+                          (a)all except pP.
+    --force-flaky - Авто рестарт тестов из-за ошибок тестового окружения.
+    --max-runs=MAX_RUNS - максимальное количество попыток перезапуска одного теста, по умолчанию 1 раз
+
+    @pytest.mark.xfail - пометить тест как провальный (можно)
+    @pytest.mark.xfail(raises=RuntimeError) - задать ожидаемое исключение
+    @pytest.mark.skipif(not os.getenv('SKIP', False), reason="Сценарий не готов")
+
+    @pytest.allure.feature('<FEATURE NAME>')
+    @pytest.allure.story('<CASE NAME>')
+
+    @pytest.allure.<STATUS> - MINOR / MAJOR / CRITICAL / BLOCKER
+    @pytest.allure.testcase('http://example.com')
+    @pytest.allure.issue('http://jira.edgex-team.ru/browse/<ITEM>')
+
+3. Environment variables:
+    0. Python
+        https://docs.python.org/3.5/using/cmdline.html
+
+        $PYTHONUNBUFFERED
+        $PYTHONDONTWRITEBYTECODE
+        $PYTHONTHREADDEBUG
+
+    2. Logs:
+        $LOGGING_LEVEL - уровень логирования (CRITICAL, ERROR, WARNING, INFO, SUBDEBUG, DEBUG, NOTSET)
+        $LOGGING_CONSOLE_LEVEL - уровень логирования (CRITICAL, ERROR, WARNING, INFO, SUBDEBUG, DEBUG, NOTSET)
+
+    3. Selenium
+        $USE_LOCALHOST=1
+        $CHROME_DRIVER_PATH=/usr/local/bin/chromedriver
+        $SELENIUM_HUB
