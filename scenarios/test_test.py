@@ -13,7 +13,7 @@ class TestSetOneOne:
     def test_login(self, log, frontend):
         frontend.authorization.login(os.getenv('LOGIN', 'test'), os.getenv('PASSWD', 'test'))
         frontend.authorization.logout()
-        log.attach_selenium_screenshot('test_1', frontend.driver)
+        # log.attach_selenium_screenshot('test_1', frontend.driver)
 
     @pytest.mark.test_2
     def test_test(self, frontend, log):

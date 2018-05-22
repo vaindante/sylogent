@@ -65,6 +65,7 @@ def _browser():
 @pytest.fixture(scope='function')
 def frontend(_browser):
     # Возможно надо будет чистить куки, и еще что-нибудь
+    _browser.reload()
     return Frontend(_browser)
 
 
@@ -95,9 +96,10 @@ def pytest_runtest_teardown(item, nextitem):
 
 def pytest_runtest_makereport(item, call):
     # if scenarios result has fail
-    logger.attach_error('logs', logger.test_log.getvalue())
-    if '_browser' in item._request._funcargs:
-        logger.attach_selenium_screenshot('screenshot', item._request._funcargs['_browser'].driver)
+    if call.when == 'call':
+        logger.attach_debug('logs', logger.test_log.getvalue())
+        if '_browser' in item._request._funcargs:
+            logger.attach_selenium_screenshot('screenshot', item._request._funcargs['_browser'].driver)
 
 
 def pytest_unconfigure(config):

@@ -1,4 +1,5 @@
 from core.frontend import *
+from logger import logger
 
 
 class Frontend:
@@ -6,6 +7,7 @@ class Frontend:
         self._browser = browser
         self.authorization = Authorization(browser)
         self.__steps = Steps(browser)
+        logger.debug('frontend build completed')
 
     def __getattr__(self, item):
         return getattr(self.__steps, item)

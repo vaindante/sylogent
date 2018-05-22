@@ -115,6 +115,11 @@ class StepOptionException(ExceptionTemplate):
     pass
 
 
+# Fail in step
+class FailStep(ExceptionTemplate):
+    pass
+
+
 # API formatted exception
 class ApiFormattedException(ExceptionTemplate):
     def __init__(self, message, mismatch_list, *args):

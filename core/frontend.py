@@ -1,5 +1,8 @@
+from time import time
+
 import allure
 
+from exceptions import FailStep
 
 class __Base:
     def __init__(self, browser):
@@ -9,11 +12,15 @@ class __Base:
 class Authorization(__Base):
     @allure.step('Авторизуемся на сайте под логином {1}')
     def login(self, login, passwd):
-
         el = self._browser.get_by_id('Username')
         el.send_keys(login)
         self._browser.get_by_id('Password').send_keys(passwd)
         self._browser.get_by_id('btnLogin').click()
+        time_start = time()
+
+        while self._browser.get_by_id('btnLogin', need_fail=False, custom_time_out=1):
+            if time() - time_start > 10:
+                raise FailStep('not authorization after 10s')
 
     @allure.step('Деавторизуемся')
     def logout(self):
