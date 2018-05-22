@@ -9,7 +9,11 @@ class __Base:
 class Authorization(__Base):
     @allure.step('Авторизуемся на сайте под логином {1}')
     def login(self, login, passwd):
-        pass
+
+        el = self._browser.get_by_id('Username')
+        el.send_keys(login)
+        self._browser.get_by_id('Password').send_keys(passwd)
+        self._browser.get_by_id('btnLogin').click()
 
     @allure.step('Деавторизуемся')
     def logout(self):

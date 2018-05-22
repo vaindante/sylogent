@@ -20,7 +20,7 @@ def pytest_configure(config):
         # Prepare reports dir
         reports_dir = 'reports'
 
-        logger.info('delete report dir')
+        logger.info("delete report dir")
 
         try:
             shutil.rmtree(reports_dir)
@@ -43,7 +43,7 @@ def log():
 @pytest.yield_fixture(scope="session")
 def _browser():
     logger.info('Selenium: open browser')
-    url = os.getenv('URL', 'https://github.com/')
+    url = os.getenv('URL', 'https://rc.sylogent.com/ps/Landing/Login.aspx')
     browser_binding = SeleniumWebDriver()
     # Сохраняем уникальный id окна and url
     browser_binding.window = {
@@ -95,10 +95,9 @@ def pytest_runtest_teardown(item, nextitem):
 
 def pytest_runtest_makereport(item, call):
     # if scenarios result has fail
-    if call.excinfo is not None and call.excinfo.typename != 'Skipped' and not os.getenv('NO_FAIL_SCREENSHOT'):
-        logger.attach_error('logs', logger.test_log.getvalue())
-        if '_browser' in item._request._funcargs:
-            logger.attach_selenium_screenshot('fail-screenshot', item._request._funcargs['_browser'].driver)
+    logger.attach_error('logs', logger.test_log.getvalue())
+    if '_browser' in item._request._funcargs:
+        logger.attach_selenium_screenshot('screenshot', item._request._funcargs['_browser'].driver)
 
 
 def pytest_unconfigure(config):

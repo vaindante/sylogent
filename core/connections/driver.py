@@ -7,6 +7,7 @@ from selenium.common.exceptions import TimeoutException, UnexpectedAlertPresentE
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.remote.webelement import WebElement
 
 from exceptions import SeleniumWebDriverError, SeleniumBrowserNotStarting
 from logger import logger
@@ -172,7 +173,7 @@ class SeleniumWebDriver:
         return self.cookies['yandexuid']
 
     # Elements getters #################################################################################################
-    def get_element(self, path_type, element_path, need_fail=True, custom_time_out=None, is_elements_list=False):
+    def _get_element(self, path_type, element_path, need_fail=True, custom_time_out=None, is_elements_list=False):
         """
         Get element
                 :param path_type: тип локатора
@@ -218,18 +219,18 @@ class SeleniumWebDriver:
 
     def get_by_xpath(self, xpath, need_fail=True, is_elements_list=False, custom_time_out=None):
         # Get element by XPath
-        return self.get_element('xpath', xpath, need_fail=need_fail, is_elements_list=is_elements_list,
-                                custom_time_out=custom_time_out)
+        return self._get_element('xpath', xpath, need_fail=need_fail, is_elements_list=is_elements_list,
+                                 custom_time_out=custom_time_out)
 
     def get_by_css(self, css, need_fail=True, is_elements_list=False, custom_time_out=None):
         # Get element by CSS
-        return self.get_element('css', css, need_fail=need_fail, is_elements_list=is_elements_list,
-                                custom_time_out=custom_time_out)
+        return self._get_element('css', css, need_fail=need_fail, is_elements_list=is_elements_list,
+                                 custom_time_out=custom_time_out)
 
     def get_by_id(self, e_id, need_fail=True, is_elements_list=False, custom_time_out=None):
         # Get element by ID
-        return self.get_element('id', e_id, need_fail=need_fail, is_elements_list=is_elements_list,
-                                custom_time_out=custom_time_out)
+        return self._get_element('id', e_id, need_fail=need_fail, is_elements_list=is_elements_list,
+                                 custom_time_out=custom_time_out)
 
     def close_all_popups(self):
         # Закрытие iframe

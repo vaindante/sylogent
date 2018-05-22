@@ -1,5 +1,5 @@
 import pytest
-
+import os
 from utils.object import correspond_selected_object
 
 
@@ -9,9 +9,11 @@ from utils.object import correspond_selected_object
 @pytest.mark.test_set_one
 class TestSetOneOne:
     @pytest.mark.test_1
-    def test_login(self, frontend):
-        frontend.authorization.login('test@test.ru', 'test')
+    @pytest.mark.case_1
+    def test_login(self, log, frontend):
+        frontend.authorization.login(os.getenv('LOGIN', 'test'), os.getenv('PASSWD', 'test'))
         frontend.authorization.logout()
+        log.attach_selenium_screenshot('test_1', frontend.driver)
 
     @pytest.mark.test_2
     def test_test(self, frontend, log):
