@@ -3,8 +3,8 @@ from logger import logger
 
 
 class Frontend:
-    def __init__(self, browser):
-        self._browser = browser
+    def __init__(self, browser, l, p):
+        self._browser, self.login, self.passwd = browser, l, p
         self.authorization = Authorization(browser)
         self.__steps = Steps(browser)
         logger.debug('frontend build completed')

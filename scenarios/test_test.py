@@ -1,5 +1,5 @@
 import pytest
-import os
+
 from utils.object import correspond_selected_object
 
 
@@ -11,14 +11,14 @@ class TestSetOneOne:
     @pytest.mark.test_1
     @pytest.mark.case_1
     def test_login(self, log, frontend):
-        frontend.authorization.login(os.getenv('LOGIN', 'test'), os.getenv('PASSWD', 'test'))
+        frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
         # log.attach_selenium_screenshot('test_1', frontend.driver)
 
     @pytest.mark.test_2
     def test_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
-            frontend.authorization.login('test@test.ru', 'test')
+            frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
 
         with pytest.allure.step('Проект'):
@@ -54,13 +54,13 @@ class TestSetOneOne:
 class TestSetOneTwo:
     @pytest.mark.test_1
     def test_login(self, frontend):
-        frontend.authorization.login('test@test.ru', 'test')
+        frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
     def test_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
-            frontend.authorization.login('test@test.ru', 'test')
+            frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
 
         with pytest.allure.step('Проект'):
@@ -96,13 +96,13 @@ class TestSetOneTwo:
 class TestSetOneThree:
     @pytest.mark.test_1
     def test_login(self, frontend):
-        frontend.authorization.login('test@test.ru', 'test')
+        frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
     def test_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
-            frontend.authorization.login('test@test.ru', 'test')
+            frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
 
         with pytest.allure.step('Проект'):
@@ -138,13 +138,13 @@ class TestSetOneThree:
 class TestSetTwoOne:
     @pytest.mark.test_1
     def test_login(self, frontend):
-        frontend.authorization.login('test@test.ru', 'test')
+        frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
     def test_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
-            frontend.authorization.login('test@test.ru', 'test')
+            frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
 
         with pytest.allure.step('Проект'):
@@ -180,13 +180,13 @@ class TestSetTwoOne:
 class TestSetTwoTwo:
     @pytest.mark.test_1
     def test_login(self, frontend):
-        frontend.authorization.login('test@test.ru', 'test')
+        frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
     def test_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
-            frontend.authorization.login('test@test.ru', 'test')
+            frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
 
         with pytest.allure.step('Проект'):
@@ -222,13 +222,13 @@ class TestSetTwoTwo:
 class TestSetTwoThree:
     @pytest.mark.test_1
     def test_login(self, frontend):
-        frontend.authorization.login('test@test.ru', 'test')
+        frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
     def test_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
-            frontend.authorization.login('test@test.ru', 'test')
+            frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
 
         with pytest.allure.step('Проект'):
