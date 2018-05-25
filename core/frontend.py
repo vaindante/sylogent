@@ -29,7 +29,7 @@ class Authorization(__Base):
 
 
 class Steps(__Base):
-    @allure.step('Нажимаем на кнопку {1}')
+    @allure.step('Click on button {1}')
     def click_button(self, name):
         self._browser.get_by_id(name).click()
 
