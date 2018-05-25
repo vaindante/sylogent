@@ -7,16 +7,16 @@ from utils.object import correspond_selected_object
 @pytest.allure.story('Story1')
 @pytest.mark.smoke
 @pytest.mark.test_set_one
-class TestSetOneOne:
+class TestSuiteQATA0:
     @pytest.mark.test_1
     @pytest.mark.case_1
-    def test_login(self, log, frontend):
+    def test_qata_login(self, log, frontend):
         frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
         # log.attach_selenium_screenshot('test_1', frontend.driver)
 
     @pytest.mark.test_2
-    def test_test(self, frontend, log):
+    def test_qata_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
             frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
@@ -53,12 +53,12 @@ class TestSetOneOne:
 @pytest.mark.test_set_one
 class TestSetOneTwo:
     @pytest.mark.test_1
-    def test_login(self, frontend):
+    def test_qata_login(self, frontend):
         frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
-    def test_test(self, frontend, log):
+    def test_qata_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
             frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
@@ -95,12 +95,12 @@ class TestSetOneTwo:
 @pytest.mark.test_set_one
 class TestSetOneThree:
     @pytest.mark.test_1
-    def test_login(self, frontend):
+    def test_qata_login(self, frontend):
         frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
-    def test_test(self, frontend, log):
+    def test_qata_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
             frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
@@ -137,12 +137,12 @@ class TestSetOneThree:
 @pytest.mark.test_set_two
 class TestSetTwoOne:
     @pytest.mark.test_1
-    def test_login(self, frontend):
+    def test_qata_login(self, frontend):
         frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
-    def test_test(self, frontend, log):
+    def test_qata_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
             frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
@@ -179,12 +179,12 @@ class TestSetTwoOne:
 @pytest.mark.test_set_two
 class TestSetTwoTwo:
     @pytest.mark.test_1
-    def test_login(self, frontend):
+    def test_qata_login(self, frontend):
         frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
-    def test_test(self, frontend, log):
+    def test_qata_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
             frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
@@ -221,12 +221,12 @@ class TestSetTwoTwo:
 @pytest.mark.test_set_two
 class TestSetTwoThree:
     @pytest.mark.test_1
-    def test_login(self, frontend):
+    def test_qata_login(self, frontend):
         frontend.authorization.login(frontend.login, frontend.passwd)
         frontend.authorization.logout()
 
     @pytest.mark.test_2
-    def test_test(self, frontend, log):
+    def test_qata_test(self, frontend, log):
         with pytest.allure.step('Авторизуемся на сайте'):
             frontend.authorization.login(frontend.login, frontend.passwd)
             log.attach_selenium_screenshot('Test', frontend.driver)
