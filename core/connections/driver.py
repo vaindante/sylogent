@@ -6,6 +6,8 @@ from json import dumps
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, UnexpectedAlertPresentException, \
     NoAlertPresentException, WebDriverException
+from selenium.webdriver.common.action_chains import ActionChains
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
@@ -407,3 +409,11 @@ class SeleniumWebDriver:
         alert = self.driver.switch_to.alert
         if alert is not None:
             alert.accept()
+
+    def scroll(self, element_move):
+        act = ActionChains(self.driver)
+        # передвигаем до нужного нам элемента
+        act.move_to_element(element_move).move_by_offset(0, 30)
+        time.sleep(.3)
+        # Все отображаем
+        act.perform()

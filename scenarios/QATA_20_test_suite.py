@@ -52,4 +52,5 @@ def test_qata_20(log, frontend):
             'Admin, Sylogent': 'req'
         }
     )
-    # frontend.click_button('btnSaveTasksAndResourcesClose')
+    frontend.click_button('btnSaveTasksAndResources')
+    frontend.click_button('PageFrame1_btnFinish')

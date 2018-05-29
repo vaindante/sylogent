@@ -34,7 +34,9 @@ class Steps(__Base):
 
     @allure.step('Click on button {1}')
     def click_button(self, name):
-        self._browser.get_by_id(name).click()
+        el = self._browser.get_by_id(name)
+        self._browser.scroll(el)
+        el.click()
 
     def click_button_on_modal_dialog(self, name):
         self._browser.get_by_xpath(f'//div[contains(@class, "modal")]//button[contains(text(), "{name}")]').click()
