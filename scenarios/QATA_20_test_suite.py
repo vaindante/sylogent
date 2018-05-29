@@ -4,7 +4,6 @@ import pytest
 @pytest.allure.story('Procedure  Test Suite QATA - 20')
 @pytest.mark.test_20
 def test_qata_20(log, frontend):
-    # add test
     frontend.open_url('https://rc.sylogent.com/ps/Landing/Login.aspx')
     frontend.authorization.login(frontend.login, frontend.passwd)
     frontend.goto('PubSTRAT')
