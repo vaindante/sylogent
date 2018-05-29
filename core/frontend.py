@@ -12,7 +12,7 @@ class __Base:
 
 
 class Authorization(__Base):
-    @allure.step('Авторизуемся на сайте под логином {1}')
+    @allure.step('Autorization to Application {1}')
     def login(self, login, passwd):
         el = self._browser.get_by_id('Username')
         el.send_keys(login)
@@ -24,7 +24,7 @@ class Authorization(__Base):
             if time() - time_start > 10:
                 raise FailStep('not authorization after 10s')
 
-    @allure.step('Деавторизуемся')
+    @allure.step('Deautorization')
     def logout(self):
         pass
 
