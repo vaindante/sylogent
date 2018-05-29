@@ -97,4 +97,4 @@ class Steps(__Base):
         xpath = '//tr[@id="%s"]//td//span[contains(text(), "%s")]/../..//input[contains(@id, "%s")]'
         self._browser.get_by_id('img_%s' % task_id).click()
         for k, v in config.items():
-            self._browser.get_by_xpath(xpath % (task_id, k, v))
+            self._browser.get_by_xpath(xpath % (task_id, k, v)).click()
