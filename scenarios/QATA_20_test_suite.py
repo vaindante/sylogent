@@ -1,11 +1,9 @@
-from time import sleep
-
 import pytest
 
 
 @pytest.allure.story('Procedure  Test Suite QATA - 20')
 @pytest.mark.test_20
-def test_qata_20(log, frontend):
+def test_qata_20_1(log, frontend):
     frontend.open_url('https://rc.sylogent.com/ps/Landing/Login.aspx')
     frontend.authorization.login(frontend.login, frontend.passwd)
     frontend.goto('PubSTRAT')
@@ -56,7 +54,7 @@ def test_qata_20(log, frontend):
     )
     frontend.click_button('btnSaveTasksAndResources')
     frontend.click_button('PageFrame1_btnFinish')
-    frontend._browser.close_all_popups()
-    # Ждем окончания запросов
-    sleep(3)
-    frontend._browser.close_all_popups()
+
+
+def test_qata_20_2():
+    pass
