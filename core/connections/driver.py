@@ -117,16 +117,12 @@ class SeleniumWebElement(WebElement):
         else:
             value = self.text.strip()
 
-        # Пробуем получить тип данных значения
-        date_type = self.get_attribute('data-type')
-
         # Проверяем что элемент не чекбокс
-        if (value == 'on') and (self.get_attribute('type') == 'checkbox'):
+        if self.get_attribute('type') == 'checkbox':
             value = self.get_attribute('checked')
             return value if value else False
 
-        elif date_type is None:
-
+        else:
             # Преобразуем значение к нужному формату.
             if is_str_to_float(value):
                 return str_to_float(value)
@@ -137,17 +133,6 @@ class SeleniumWebElement(WebElement):
             elif value == 'false':
                 return False
             return value
-
-        else:
-
-            if date_type in ['string', 'enum', 'ref', 'datetime', 'date']:
-                return value
-
-            elif date_type in ['number'] and is_str_to_float(value):
-                return str_to_float(value)
-
-            else:
-                return value
 
     @property
     def class_web_element(self):

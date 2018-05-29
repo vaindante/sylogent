@@ -1,3 +1,4 @@
+import re
 from time import time
 
 import allure
@@ -29,6 +30,8 @@ class Authorization(__Base):
 
 
 class Steps(__Base):
+    spaces = re.compile(r'\s+')
+
     @allure.step('Нажимаем на кнопку {1}')
     def click_button(self, name):
         self._browser.get_by_id(name).click()
@@ -62,4 +65,34 @@ class Steps(__Base):
     def choose_on_table(self, name):
         self._browser.get_by_xpath(f'//table//td[contains(text(), "{name}")]').click()
 
-    # дальше шаги будут описывать по мере необходимости
+    def fill_table(self, table):
+        for key, value in table.items():
+            el = self._browser.get_by_xpath(f'''//textarea[contains(@name, "{self.spaces.sub('', key)}")]''')
+            el.send_keys(value)
+
+    def choose_on_dropdown_in_table(self, name, value, _id=None):
+        xpath = f'''//select[contains(@name, "{self.spaces.sub('', name)}")]'''
+        if _id:
+            xpath = f'//select[id={_id}]'
+        self._browser.get_by_xpath(xpath).click()
+        self._browser.get_by_xpath(f'{xpath}//option[contains(text(), "{value}")]').click()
+
+    def set_checkbox_in_table(self, name, value):
+        el = self._browser.get_by_xpath(f'''//*[@type="checkbox" and contains(@name, "{self.spaces.sub('', name)}")]''')
+
+        if value != el.value:
+            el.click()
+
+    def choose_authors(self, name, authors_list):
+        xpath = f'''//select[contains(@name , "{self.spaces.sub('', name)}")]/option[contains(text(), "%s")]'''
+        for v in authors_list:
+            self._browser.get_by_xpath(xpath % v).click()
+            self._browser.get_by_id('jq-moveAuthorsAdd').click()
+
+    def config_task(self, task, config):
+        task_id = "divTaskID_%s" % self._browser.get_by_xpath(
+            f'//td[@class="table-tasks-sequence" and contains(text(), "{task}")]').get_attribute('title')
+        xpath = '//tr[@id="%s"]//td//span[contains(text(), "%s")]/../..//input[contains(@id, "%s")]'
+        self._browser.get_by_id('img_%s' % task_id).click()
+        for k, v in config.items():
+            self._browser.get_by_xpath(xpath % (task_id, k, v))
