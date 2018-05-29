@@ -41,11 +41,11 @@ class Steps(__Base):
     def click_button_on_modal_dialog(self, name):
         self._browser.get_by_xpath(f'//div[contains(@class, "modal")]//button[contains(text(), "{name}")]').click()
 
-    @allure.step('Расскрываем список {1}')
+    @allure.step('Open Drop-Down Field {1}')
     def click_on_dropdown(self, name):
         self._browser.get_by_xpath(f'//div[@class="DropdownLabel"]//p[contains(text(), "{name}")]').click()
 
-    @allure.step('Выбираем {1}')
+    @allure.step('Select from drop down {1}')
     def choose_in_dropdown(self, name):
         self._browser.get_by_xpath(f'//div[@class="DropdownLabel"]//option[contains(text(), "{name}")]').click()
 
