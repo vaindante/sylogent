@@ -281,6 +281,7 @@ class SeleniumWebDriver:
             'failed': False
         }
 
+        self.driver.maximize_window()
         self.status = 'started'
         self.window.update({'window': self.driver.window_handles[0]})
         self.session_info.append(self.node_info)
