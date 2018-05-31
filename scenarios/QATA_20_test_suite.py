@@ -60,3 +60,8 @@ def test_qata_20(log, frontend):
     # Ждем окончания запросов
     sleep(3)
     frontend._browser.close_all_popups()
+
+
+@pytest.mark.test_1
+def test_qata_1(frontend):
+    pass

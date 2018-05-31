@@ -1,0 +1,15 @@
+{
+  "grid": "http://selenium:selenium@sg.yandex-team.ru:4444/wd/hub",
+  "browser_list": {
+    "chrome": {
+      "capabilities": {
+        "browserName": "chrome"
+      }
+    },
+    "firefox": {
+      "capabilities": {
+        "browserName": "firefox"
+      }
+    }
+  }
+}
