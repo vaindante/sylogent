@@ -1,5 +1,5 @@
 import re
-from time import time
+from time import time, sleep
 
 import allure
 
@@ -33,8 +33,11 @@ class Steps(__Base):
     spaces = re.compile(r'\s+')
 
     @allure.step('Click on button {1}')
-    def click_button(self, name):
-        el = self._browser.get_by_id(name)
+    def click_button(self, name, text=False):
+        if not text:
+            el = self._browser.get_by_id(name)
+        else:
+            el = self._browser.get_by_xpath(f'//*[contains(text(), "{name}")]')
         self._browser.scroll(el)
         el.click()
 
@@ -98,3 +101,16 @@ class Steps(__Base):
         self._browser.get_by_id('img_%s' % task_id).click()
         for k, v in config.items():
             self._browser.get_by_xpath(xpath % (task_id, k, v)).click()
+
+    def set_filter(self, name, value):
+        xpath = f'//th//a[contains(text(), "{name}")]/../'
+        el = self._browser.get_by_xpath('%s/*[@data-action="filter-trigger"]' % xpath)
+        self._browser.scroll(el)
+        sleep(.5)
+        el.click()
+        self._browser.get_by_id(value).click()
+        self._browser.get_by_xpath('%s/*[@data-action="filter-submit"]' % xpath).click()
+
+    def get_values_on_table(self, index):
+        elements = self._browser.get_by_xpath(f'//tbody//td[{index}]', is_elements_list=True)
+        return [el.text for el in elements]

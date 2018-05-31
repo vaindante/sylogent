@@ -2,6 +2,7 @@ import os
 import shutil
 import subprocess
 import threading
+from json import load
 
 import pytest
 
@@ -9,9 +10,26 @@ from core.connections.driver import SeleniumWebDriver
 from core.selenium_steps import Frontend
 from logger import logger
 
+try:
+    settings = load(open('local_settings.json'))
+except FileNotFoundError:
+    settings = load(open('browsers.json'))
+
 
 ########################################################################################################################
 # py.scenarios conf
+def pytest_addoption(parser):
+    parser.addoption("--set_browser", action="store_true",
+                     help="run combinations", default='all')
+
+
+def pytest_generate_tests(metafunc):
+    if 'sets' in metafunc.fixturenames:
+        metafunc.parametrize(
+            "sets", settings['browser_list'],
+            scope='session'
+        )
+
 
 def pytest_configure(config):
     logger.info('Start py.scenarios configuring')
@@ -41,10 +59,14 @@ def log():
 
 
 @pytest.yield_fixture(scope="session")
-def _browser():
+def _browser(sets):
     logger.info('Selenium: open browser')
     url = os.getenv('URL', 'https://rc.sylogent.com/ps/Landing/Login.aspx')
-    browser_binding = SeleniumWebDriver()
+    browser_binding = SeleniumWebDriver(**{
+        'grid': settings.get('grid'),
+        'local': settings.get('local'),
+        **settings['browser_list'][sets]
+    })
     # Сохраняем уникальный id окна and url
     browser_binding.window = {
         'window': browser_binding.driver.window_handles[0],
@@ -61,7 +83,7 @@ def _browser():
     browser_binding.quit()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='session')
 def frontend(_browser):
     # Возможно надо будет чистить куки, и еще что-нибудь
     # Добавляем инфу о пользователе

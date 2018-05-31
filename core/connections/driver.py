@@ -7,7 +7,6 @@ from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, UnexpectedAlertPresentException, \
     NoAlertPresentException, WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
@@ -254,19 +253,16 @@ class SeleniumWebDriver:
     def start_session(self):
         # Пытаемся подключиться к selenium ноде (делаем 3 попытки)
         logger.info('Selenium: create new object driver(browser)')
-        capabilities = {
-            "browserName": "chrome",
-            "version": "61.0",
-        }
         if os.getenv('USE_LOCALHOST', None) or getattr(self, 'local', None):
-            self.driver = webdriver.Chrome(
-                os.getenv('CHROME_DRIVER_PATH', './core/chromedriver'),
+            self.driver = getattr(webdriver, self.browser_name)(
+                self.path,
+                desired_capabilities=self.capabilities
             )
 
         else:
             self.driver = webdriver.Remote(
                 command_executor=os.getenv('SELENIUM_HUB', 'http://selenium:selenium@sg.yandex-team.ru:4444/wd/hub'),
-                desired_capabilities=capabilities
+                desired_capabilities=self.capabilities
             )
 
         # Подменяем класс, если мы хотим работать со своим классом, то и получать должны его
@@ -406,14 +402,18 @@ class SeleniumWebDriver:
 
     def close_all_popups(self):
         # Закрытие iframe
-        alert = self.driver.switch_to.alert
-        if alert is not None:
-            alert.accept()
+        try:
+            alert = self.driver.switch_to.alert
+            if alert is not None:
+                alert.accept()
+        except NoAlertPresentException:
+            pass
 
     def scroll(self, element_move):
         act = ActionChains(self.driver)
         # передвигаем до нужного нам элемента
-        act.move_to_element(element_move).move_by_offset(0, 30)
-        time.sleep(.3)
+        act.move_to_element(element_move).move_by_offset(10, 30)
+        time.sleep(.5)
         # Все отображаем
         act.perform()
+        time.sleep(.2)
