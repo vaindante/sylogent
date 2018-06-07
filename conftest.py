@@ -11,6 +11,7 @@ from core.selenium_steps import Frontend
 from logger import logger
 
 try:
+    # if os.getenv('USE_LOCALHOST', None):
     settings = load(open('local_settings.json'))
 except FileNotFoundError:
     settings = load(open('browsers.json'))

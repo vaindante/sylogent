@@ -15,3 +15,6 @@ venv/
 .DS_Store
 allure-report.zip
 scenarios/.DS_Store
+cm
+config/
+local_settings.json

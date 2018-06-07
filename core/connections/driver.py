@@ -261,7 +261,7 @@ class SeleniumWebDriver:
 
         else:
             self.driver = webdriver.Remote(
-                command_executor=os.getenv('SELENIUM_HUB', 'http://selenium:selenium@sg.yandex-team.ru:4444/wd/hub'),
+                command_executor=self.grid,
                 desired_capabilities=self.capabilities
             )
 
