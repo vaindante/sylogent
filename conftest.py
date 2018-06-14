@@ -86,7 +86,7 @@ def _browser(sets):
 
 @pytest.fixture(scope='session')
 def frontend(_browser):
-    # Возможно надо будет чистить куки, и еще что-нибудь
+    # чистить куки, и еще что-нибудь
     # Добавляем инфу о пользователе
     _browser.reload()
     return Frontend(_browser, os.getenv('LOGIN', 'test'), os.getenv('PASSWD', 'test'))

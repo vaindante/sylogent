@@ -1,7 +1,7 @@
 import pytest
 
 
-@pytest.allure.story('Procedure  Test Suite QATA - 20')
+@pytest.allure.story('Procedure  Test Suite QATA - 22')
 @pytest.mark.test_22
 def test_qata_22(log, frontend):
     frontend.open_url('https://rc.sylogent.com/ps/Landing/Login.aspx')

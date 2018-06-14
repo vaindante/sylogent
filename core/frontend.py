@@ -12,7 +12,7 @@ class __Base:
 
 
 class Authorization(__Base):
-    @allure.step('Autorization to Application {1}')
+    @allure.step('Autorization to the Application {1}')
     def login(self, login, passwd):
         el = self._browser.get_by_id('Username')
         el.send_keys(login)
@@ -32,7 +32,7 @@ class Authorization(__Base):
 class Steps(__Base):
     spaces = re.compile(r'\s+')
 
-    @allure.step('Click on button {1}')
+    @allure.step('Click on  {1} button ')
     def click_button(self, name, text=False):
         if not text:
             el = self._browser.get_by_id(name)
@@ -56,13 +56,16 @@ class Steps(__Base):
     def goto(self, name):
         self._browser.get_by_id(name).click()
 
+    @allure.step('Go to {1}')
     def navigate(self, name):
         el = self._browser.get_by_xpath(f'//ul[@class="navigation"]//a[contains(text(), "{name}")]')
         el.click()
 
+    @allure.step('Select {1} table tab')
     def choose_tab(self, name):
         self._browser.get_by_xpath(f'//table[@class="table-tabs"]//a[contains(text(), "{name}")]').click()
 
+    @allure.step('Select {1} checkbox')
     def choose_checkbox(self, name, test=False):
         t = '' if test else '//ul[@class="radioButtonTypeWizard"]'
         self._browser.get_by_xpath(f'{t}//*[contains(text(), "{name}")]').click()
@@ -75,6 +78,7 @@ class Steps(__Base):
             el = self._browser.get_by_xpath(f'''//textarea[contains(@name, "{self.spaces.sub('', key)}")]''')
             el.send_keys(value)
 
+    @allure.step('Select {1} in drop-down')
     def choose_on_dropdown_in_table(self, name, value, _id=None):
         xpath = f'''//select[contains(@name, "{self.spaces.sub('', name)}")]'''
         if _id:
@@ -114,3 +118,9 @@ class Steps(__Base):
     def get_values_on_table(self, index):
         elements = self._browser.get_by_xpath(f'//tbody//td[{index}]', is_elements_list=True)
         return [el.text for el in elements]
+
+
+
+
+
+
