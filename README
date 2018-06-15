@@ -50,7 +50,7 @@ $       ./venv/bin/pip install -r requirements.txt
 
     2. Logs:
         $LOGGING_LEVEL - уровень логирования (CRITICAL, ERROR, WARNING, INFO, SUBDEBUG, DEBUG, NOTSET)
-        $LOGGING_CONSOLE_LEVEL - уровень логирования (CRITICAL, ERROR, WARNING, INFO, SUBDEBUG, DEBUG, NOTSET)
+        $LOGGING_LEVEL_TO_CONSOLE - уровень логирования (CRITICAL, ERROR, WARNING, INFO, SUBDEBUG, DEBUG, NOTSET)
 
     3. Selenium
         $USE_LOCALHOST=1
