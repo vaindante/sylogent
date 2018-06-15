@@ -119,8 +119,10 @@ class Steps(__Base):
         elements = self._browser.get_by_xpath(f'//tbody//td[{index}]', is_elements_list=True)
         return [el.text for el in elements]
 
+    @allure.step('Click element by tag')
+    def click_element_by_tag(self, tag):
+        self._browser.get_by_tag(tag).click()
 
-
-
-
-
+    @allure.step('Select element by name')
+    def click_element_by_tag(self, name):
+        self._browser.get_by_name(name).click()

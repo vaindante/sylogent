@@ -1,7 +1,8 @@
 {
-  "grid": "http://selenium:selenium@sg.yandex-team.ru:4444/wd/hub",
+  "grid": "http://localhost:4444/wd/hub",
   "browser_list": {
     "chrome": {
+      "browser_name": "Chrome",
       "capabilities": {
         "browserName": "chrome"
       }

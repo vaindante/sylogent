@@ -276,6 +276,8 @@ class SeleniumWebDriver:
             'session_id': self.driver.session_id,
             'failed': False
         }
+        self.driver.set_window_size(1920, 1080)
+        self.driver.maximize_window()
 
         self.driver.maximize_window()
         self.status = 'started'
@@ -357,7 +359,9 @@ class SeleniumWebDriver:
             'xpath': By.XPATH,
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'class': By.CLASS_NAME
+            'class': By.CLASS_NAME,
+            'tag': By.TAG_NAME,
+            'name': By.NAME
         }
         if custom_time_out is not None:
             time_out = custom_time_out
@@ -399,6 +403,16 @@ class SeleniumWebDriver:
     def get_by_id(self, e_id, need_fail=True, is_elements_list=False, custom_time_out=None):
         # Get element by ID
         return self._get_element('id', e_id, need_fail=need_fail, is_elements_list=is_elements_list,
+                                 custom_time_out=custom_time_out)
+
+    def get_by_tag(self, tag, need_fail=True, is_elements_list=False, custom_time_out=None):
+        # Get element by TAG
+        return self._get_element('tag', tag, need_fail=need_fail, is_elements_list=is_elements_list,
+                                 custom_time_out=custom_time_out)
+
+    def get_by_name(self, name, need_fail=True, is_elements_list=False, custom_time_out=None):
+        # Get element by NAME
+        return self._get_element('name', name, need_fail=need_fail, is_elements_list=is_elements_list,
                                  custom_time_out=custom_time_out)
 
     def close_all_popups(self):
