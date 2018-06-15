@@ -120,7 +120,6 @@ def test_qata_02(log, frontend):
      frontend.click_button('btnSaveTasksAndResources')
      frontend.click_button('PageFrame1_btnFinish')
      frontend.navigate('Projects')
-     sleep(3)
      frontend.click_button('All')
      sleep(3)
 

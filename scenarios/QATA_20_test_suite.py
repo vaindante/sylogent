@@ -43,7 +43,7 @@ def test_qata_20(log, frontend):
 
     frontend.click_button('PageFrame1_btnSaveTarget')
     # frontend.click_button_on_modal_dialog('Yes')
-    log.attach_selenium_screenshot('TARGET', frontend.driver)
+    log.attach_selenium_screenshot('TARGET tab', frontend.driver)
 
     frontend.set_checkbox_in_table('Deadline Can Slip', True)
     log.attach_selenium_screenshot('TIMELINE', frontend.driver)
