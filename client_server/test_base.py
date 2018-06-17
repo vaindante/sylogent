@@ -38,7 +38,8 @@ class TestBase(object):
                 SELECT id, username, email, password
                 FROM users_user
             """
-        cursor = yield self.db.execute(sql)
+        t = yield self.db.execute(sql)
+        cursor = t.result()
         desc = cursor.description
         result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
         return result

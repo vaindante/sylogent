@@ -3,7 +3,8 @@
 from os import getenv
 
 import momoko
-from tornado import ioloop, web, httpserver
+from tornado import web, httpserver
+from tornado.ioloop import IOLoop
 from tornado.options import define, options
 
 from client_server.psql_handlers import PostgresUserHandler
@@ -23,16 +24,31 @@ class Application(web.Application):
             (r"/user/(\d+)", PostgresUserHandler)
         ]
         web.Application.__init__(self, handlers)
-        dsn = f'dbname={DATABASE} user={USER} password={PASSWORD} host={DBHOST} port={PORT}'
-        self.db = momoko.Pool(dsn=dsn, size=5)
-        self.db.connect()
+        self.dsn = f'dbname={DATABASE} user={USER} password={PASSWORD} host={DBHOST} port={PORT}'
+        # self.db = momoko.Pool(dsn=dsn, size=5)
 
 
 def main():
     options.parse_command_line()
-    http_server = httpserver.HTTPServer(Application())
+
+    application = Application()
+    ioloop = IOLoop.instance()
+
+    application.db = momoko.Pool(
+        application.dsn,
+        size=5,
+        ioloop=ioloop,
+        raise_connect_errors=False
+    )
+    future = application.db.connect()
+
+    ioloop.add_future(future, lambda f: ioloop.stop())
+    ioloop.start()
+    future.result()
+
+    http_server = httpserver.HTTPServer(application)
     http_server.listen(options.port)
-    ioloop.IOLoop.instance().start()
+    ioloop.start()
 
 
 if __name__ == '__main__':
