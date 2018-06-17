@@ -71,7 +71,7 @@ class Steps(__Base):
         self._browser.get_by_xpath(f'{t}//*[contains(text(), "{name}")]').click()
 
     def choose_on_table(self, name):
-        self._browser.get_by_xpath(f'//table//td[contains(text(), "{name}")]').click()
+        self._browser.get_by_xpath(f'//table//td[contains(text(), "{name}")]', is_elements_list=True, need_fail=False).click()
 
     def fill_table(self, table):
         for key, value in table.items():

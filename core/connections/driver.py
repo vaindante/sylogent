@@ -348,9 +348,9 @@ class SeleniumWebDriver:
         Get element
                 :param path_type: тип локатора
                 :param element_path: путь элемента
-                :param need_fail:
-                :param custom_time_out:
-                :param is_elements_list:
+                :param need_fail: Вернуть значение need_fail (None, False)
+                :param custom_time_out: Время ожидения элемента
+                :param is_elements_list: Будет возращать список елементов вместо одного
                 :return:
         """
 

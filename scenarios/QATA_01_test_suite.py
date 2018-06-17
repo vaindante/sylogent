@@ -1,3 +1,4 @@
+import pytest
 from time import sleep
 
 import pytest
@@ -15,6 +16,7 @@ def prepare(frontend):
 
 @pytest.allure.story('QA-PS-01-Application-UAT-Verification')
 @pytest.mark.test_01
+@pytest.mark.tmp
 @pytest.mark.parametrize('nav', ('Tasks', 'Projects', 'Targets', 'Studies', 'Resources/Authors', 'Reports'))
 def test_qata_01(log, frontend, nav, prepare):
     frontend.navigate(nav)
@@ -58,6 +60,7 @@ def test_qata_01(log, frontend, nav, prepare):
     log.attach_selenium_screenshot('calendar', frontend.driver)
 
 
+
 # @pytest.mark.deb
 # def test_qata_20_2(prepare, frontend, log):
 #     frontend.navigate('Tasks')
@@ -72,6 +75,8 @@ def test_qata_01(log, frontend, nav, prepare):
 
 @pytest.allure.story('QA-PS-28-Create:Restyle and Resubmit Project ')
 @pytest.mark.test_02
+@pytest.mark.tmp
+@pytest.mark.usefixtures('prepare')
 def test_qata_02(log, frontend):
     frontend.navigate('Project')
     frontend.choose_tab('Create')
@@ -115,6 +120,9 @@ def test_qata_02(log, frontend):
             'Admin, Sylogent': 'req'
         }
     )
+    with pytest.raises(ZeroDivisionError):
+        1/0
+
     frontend.click_button('btnSaveTasksAndResources')
     frontend.click_button('PageFrame1_btnFinish')
     frontend.navigate('Projects')

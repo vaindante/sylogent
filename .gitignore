@@ -18,3 +18,7 @@ scenarios/.DS_Store
 cm
 config/
 local_settings.json
+lib
+bin
+core/geckodriver
+include/
