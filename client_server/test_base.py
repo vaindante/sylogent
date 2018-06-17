@@ -29,7 +29,7 @@ class TestBase(object):
             """
         cursor = yield self.db.execute(sql % id_)
         desc = cursor.description
-        result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
+        result = tuple(dict(zip((col[0] for col in desc), row)) for row in cursor.fetchall())
         return result
 
     @gen.coroutine

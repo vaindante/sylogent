@@ -20,11 +20,12 @@ define("port", default=8888, help="run on the given port", type=int)
 class Application(web.Application):
     def __init__(self):
         handlers = [
-            (r"/user/(.*)", PostgresUserHandler)
+            (r"/user/(\d+)", PostgresUserHandler)
         ]
         web.Application.__init__(self, handlers)
         dsn = f'dbname={DATABASE} user={USER} password={PASSWORD} host={DBHOST} port={PORT}'
         self.db = momoko.Pool(dsn=dsn, size=5)
+        self.db.connect()
 
 
 def main():

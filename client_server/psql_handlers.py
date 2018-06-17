@@ -29,12 +29,9 @@ class PostgresHandler(web.RequestHandler):
 
 class PostgresUserHandler(PostgresHandler):
     @gen.coroutine
-    def get(self, id_=None):
+    def get(self, id_):
         dao = TestBase(self.db)
-        if not id_:
-            dict_result = yield (dao.get_list())
-        else:
-            dict_result = yield (dao.get(id_))
+        dict_result = yield (dao.get(id_))
 
         self.write(json.dumps(dict_result, indent=4))
         self.finish()
