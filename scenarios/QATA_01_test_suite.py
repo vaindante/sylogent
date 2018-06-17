@@ -1,5 +1,6 @@
-import pytest
 from time import sleep
+
+import pytest
 
 
 @pytest.fixture()
@@ -24,7 +25,6 @@ def test_qata_01(log, frontend, nav, prepare):
     frontend.goto('listTaskDone')
 
     log.attach_selenium_screenshot('tasks', frontend.driver)
-
 
     frontend.navigate('Projects')
 
@@ -58,7 +58,6 @@ def test_qata_01(log, frontend, nav, prepare):
     log.attach_selenium_screenshot('calendar', frontend.driver)
 
 
-
 # @pytest.mark.deb
 # def test_qata_20_2(prepare, frontend, log):
 #     frontend.navigate('Tasks')
@@ -74,57 +73,57 @@ def test_qata_01(log, frontend, nav, prepare):
 @pytest.allure.story('QA-PS-28-Create:Restyle and Resubmit Project ')
 @pytest.mark.test_02
 def test_qata_02(log, frontend):
+    frontend.navigate('Project')
+    frontend.choose_tab('Create')
+    log.attach_selenium_screenshot('PROJECT TYPE selection', frontend.driver)
 
-     frontend.navigate('Project')
-     frontend.choose_tab('Create')
-     log.attach_selenium_screenshot('PROJECT TYPE selection', frontend.driver)
+    frontend.choose_checkbox('Abstract Restyle and Resubmit')
+    frontend.choose_checkbox('Allow selection of any study', test=True)
+    frontend.choose_on_table('ADD NAME FOR 13325')
 
-     frontend.choose_checkbox('Abstract Restyle and Resubmit')
-     frontend.choose_checkbox('Allow selection of any study', test=True)
-     frontend.choose_on_table('ADD NAME FOR 13325')
+    frontend.click_button('btnSaveStudies')
+    frontend.click_button_on_modal_dialog('Yes')
 
-     frontend.click_button('btnSaveStudies')
-     frontend.click_button_on_modal_dialog('Yes')
-
-     frontend.fill_table(
+    frontend.fill_table(
         {
             'Title': 'Test_June01',
             'Project Champion Message': 'Audit, Jim – Austria',
         }
     )
-     frontend.choose_on_dropdown_in_table('Project Champion', 'Audit, Jim - Austria')
+    frontend.choose_on_dropdown_in_table('Project Champion', 'Audit, Jim - Austria')
     # frontend.choose_on_dropdown_in_table('Language', 'English', _id='10594')
 
-     frontend.click_button('btnSaveGeneral')
+    frontend.click_button('btnSaveGeneral')
     # frontend.click_button_on_modal_dialog('Yes')
 
-     frontend.click_button('PageFrame1_btnSaveTarget')
+    frontend.click_button('PageFrame1_btnSaveTarget')
     # frontend.click_button_on_modal_dialog('Yes')
 
-     frontend.set_checkbox_in_table('Deadline Can Slip', True)
-     frontend.click_button('PageFrame1_btnSaveTimeLine')
+    frontend.set_checkbox_in_table('Deadline Can Slip', True)
+    frontend.click_button('PageFrame1_btnSaveTimeLine')
 
-     frontend.choose_checkbox('ow selection of any clinical finding', test=True)
-     frontend.click_button('PageFrame1_btnSaveClinicalFindings')
+    frontend.choose_checkbox('ow selection of any clinical finding', test=True)
+    frontend.click_button('PageFrame1_btnSaveClinicalFindings')
 
-     frontend.choose_on_dropdown_in_table('Lead Author', 'Admin, Sylogent')
-     frontend.choose_authors('Other Authors', ('Mark',))
-     frontend.click_button('PageFrame1_btnSaveAuthors')
+    frontend.choose_on_dropdown_in_table('Lead Author', 'Admin, Sylogent')
+    frontend.choose_authors('Other Authors', ('Mark',))
+    frontend.click_button('PageFrame1_btnSaveAuthors')
 
-     frontend.config_task(
+    frontend.config_task(
         'Task 1',
         {
             'Admin, Sylogent': 'req'
         }
     )
-     frontend.click_button('btnSaveTasksAndResources')
-     frontend.click_button('PageFrame1_btnFinish')
-     frontend.navigate('Projects')
-     frontend.click_button('All')
-     sleep(3)
+    frontend.click_button('btnSaveTasksAndResources')
+    frontend.click_button('PageFrame1_btnFinish')
+    frontend.navigate('Projects')
+    frontend.click_button('All')
+    sleep(3)
 
-    # frontend._browser.close_all_popups()
-    # Ждем окончания запросов
+
+# frontend._browser.close_all_popups()
+# Ждем окончания запросов
 
 # frontend._browser.close_all_popups()
 
