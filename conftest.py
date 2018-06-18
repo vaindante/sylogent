@@ -5,6 +5,7 @@ import threading
 from json import load
 
 import pytest
+import requests
 
 from core.connections.driver import SeleniumWebDriver
 from core.selenium_steps import Frontend
@@ -30,6 +31,9 @@ def pytest_generate_tests(metafunc):
             "sets", settings['browser_list'],
             scope='session'
         )
+    if 'test_user' in metafunc.fixturenames:
+        result = requests.get('http://localhost:8888/user_list').json()
+        metafunc.parametrize('test_user', result, scope='session')
 
 
 def pytest_configure(config):
