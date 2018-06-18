@@ -38,8 +38,19 @@ class TestBase(object):
                 SELECT id, username, email, password
                 FROM users_user
             """
-        t = yield self.db.execute(sql)
-        cursor = t.result()
+        cursor = yield self.db.execute(sql)
+        desc = cursor.description
+        result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
+        return result
+
+    @gen.coroutine
+    def get_list_with_params(self, params):
+        sql = f"""
+                SELECT id, username, email, password
+                FROM users_user
+                WHERE {', '.join("%s=%r" %(k,v) for k,v in params.items())}
+            """
+        cursor = yield self.db.execute(sql)
         desc = cursor.description
         result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
         return result

@@ -7,7 +7,7 @@ from tornado import web, httpserver
 from tornado.ioloop import IOLoop
 from tornado.options import define, options
 
-from client_server.psql_handlers import PostgresUserHandler
+from client_server.psql_handlers import PostgresUserHandler, PostgresUsersHandler
 
 DBHOST = getenv('DBHOST')
 DATABASE = getenv('DATABASE')
@@ -21,7 +21,8 @@ define("port", default=8888, help="run on the given port", type=int)
 class Application(web.Application):
     def __init__(self):
         handlers = [
-            (r"/user/(\d+)", PostgresUserHandler)
+            (r"/user/(\d+)", PostgresUserHandler),
+            (r"/user_list", PostgresUsersHandler)
         ]
         web.Application.__init__(self, handlers)
         self.dsn = f'dbname={DATABASE} user={USER} password={PASSWORD} host={DBHOST} port={PORT}'

@@ -11,6 +11,7 @@ class PostgresHandler(web.RequestHandler):
     def data_received(self, chunk):
         pass
 
+    json_args = None
     SUPPORTED_METHODS = ("GET", "POST", "DELETE", "PUT")
 
     @gen.coroutine
@@ -39,7 +40,7 @@ class PostgresUserHandler(PostgresHandler):
     @gen.coroutine
     def post(self, *args):
         dao = TestBase(self.db)
-        if not hasattr(self, 'json_args'):
+        if not getattr(self, 'json_args'):
             yield (dao.create_random())
         else:
             pass
@@ -48,7 +49,7 @@ class PostgresUserHandler(PostgresHandler):
 
     @gen.coroutine
     def put(self, id_=None):
-        if not hasattr(self, 'json_args'):
+        if not getattr(self, 'json_args'):
             self.write('invalid request')
             self.finish()
         else:
@@ -73,4 +74,19 @@ class PostgresUserHandler(PostgresHandler):
             self.write('user deleted')
         else:
             self.write('invalid user')
+        self.finish()
+
+
+class PostgresUsersHandler(PostgresHandler):
+    SUPPORTED_METHODS = ("GET",)
+
+    @gen.coroutine
+    def get(self):
+        dao = TestBase(self.db)
+        if not getattr(self, 'json_args'):
+            dict_result = yield dao.get_list()
+        else:
+            dict_result = yield dao.get_list_with_params(self.json_args)
+
+        self.write(json.dumps(dict_result, indent=4))
         self.finish()
