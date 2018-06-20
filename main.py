@@ -30,7 +30,7 @@ class Application(web.Application):
         # self.db = momoko.Pool(dsn=dsn, size=5)
 
 
-def main():
+def app():
     options.parse_command_line()
 
     application = Application()
@@ -54,4 +54,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    app()
