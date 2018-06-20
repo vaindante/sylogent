@@ -43,7 +43,7 @@ class PostgresUserHandler(PostgresHandler):
         if not getattr(self, 'json_args'):
             yield (dao.create_random())
         else:
-            pass
+            yield (dao.create(self.json_args))
         self.write('OK\n')
         self.finish()
 

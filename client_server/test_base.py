@@ -35,7 +35,7 @@ class TestBase(object):
     @gen.coroutine
     def get_list(self):
         sql = """
-                SELECT id, username, email, password
+                SELECT *
                 FROM users_user
             """
         cursor = yield self.db.execute(sql)
@@ -46,7 +46,7 @@ class TestBase(object):
     @gen.coroutine
     def get_list_with_params(self, params):
         sql = f"""
-                SELECT id, username, email, password
+                SELECT *
                 FROM users_user
                 WHERE {', '.join("%s=%r" %(k,v) for k,v in params.items())}
             """
@@ -56,13 +56,23 @@ class TestBase(object):
         return result
 
     @gen.coroutine
+    def create(self, json_args):
+        sql = """
+        insert into users_user (%s) VALUES (%s)
+        """ % (', '.join(json_args.keys()), ', '.join('%r' % v for v in json_args.values()))
+        yield self.db.execute(sql)
+
+    @gen.coroutine
     def create_random(self):
-        sql = """INSERT INTO users_user (username, email, password) VALUES (%r, %r, %r)"""
+        sql = """INSERT INTO users_user (username, email, password, url) VALUES (%r, %r, %r, %r)"""
         username = self._get_random_str()
         email = '{0}@{1}.com'.format(self._get_random_str(),
                                      self._get_random_str())
         password = self._get_random_str()
-        yield self.db.execute(sql % (username, email, password))
+        url = '{0}.{1}.com'.format(self._get_random_str(),
+                                   self._get_random_str())
+
+        yield self.db.execute(sql % (username, email, password, url))
 
     @gen.coroutine
     def update(self, id_, data=None):
