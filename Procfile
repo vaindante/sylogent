@@ -1,1 +1,1 @@
-web: python client_server/main.ру
+web: python main.ру
