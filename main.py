@@ -22,7 +22,8 @@ class Application(web.Application):
     def __init__(self):
         handlers = [
             (r"/user/(\d+)", PostgresUserHandler),
-            (r"/user_list", PostgresUsersHandler)
+            (r"/user_list", PostgresUsersHandler),
+            (r"/", PostgresUsersHandler)
         ]
         web.Application.__init__(self, handlers)
         self.dsn = f'dbname={DATABASE} user={USER} password={PASSWORD} host={DBHOST} port={PORT}'
