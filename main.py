@@ -22,14 +22,15 @@ class Application(web.Application):
     def __init__(self):
         handlers = [
             (r"/user/(\d+)", PostgresUserHandler),
-            (r"/user_list", PostgresUsersHandler)
+            (r"/user_list", PostgresUsersHandler),
+            (r"/", PostgresUsersHandler)
         ]
         web.Application.__init__(self, handlers)
         self.dsn = f'dbname={DATABASE} user={USER} password={PASSWORD} host={DBHOST} port={PORT}'
         # self.db = momoko.Pool(dsn=dsn, size=5)
 
 
-def main():
+def app():
     options.parse_command_line()
 
     application = Application()
@@ -53,4 +54,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    app()
