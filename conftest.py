@@ -39,7 +39,7 @@ def pytest_generate_tests(metafunc):
 def pytest_configure(config):
     logger.info('Start py.scenarios configuring')
 
-    if os.getenv('GENERATE_REPORT', True):
+    if os.getenv('GENERATE_REPORT', False):
         # Prepare reports dir
         reports_dir = 'reports'
 
@@ -130,7 +130,7 @@ def pytest_runtest_makereport(item, call):
 
 
 def pytest_unconfigure(config):
-    if os.getenv('GENERATE_REPORT', True):
+    if os.getenv('GENERATE_REPORT', False):
         threading.current_thread()._name = 'Report'
         logger.info('### Create allure report ')
         try:
