@@ -8,7 +8,7 @@ $       ./venv/bin/pip install -r requirements.txt
     3. Run it
 
 1. Test running example:
-    script = ./env/bin/py.test
+    script = c
     pytest -v -m "redir - single + case_1 and case_2 and not case_3":
         +: будут выполнены все тесты, где встречается тэг single или case_1
         -: будут выполнены все тесты, где есть тэг dish и нет тэга single и все тесты где есть тэг single и нет тэга dish

@@ -32,6 +32,7 @@ def pytest_generate_tests(metafunc):
             scope='session'
         )
     if 'test_user' in metafunc.fixturenames:
+        pass
         result = requests.get('http://localhost:8888/user_list').json()
         metafunc.parametrize('test_user', result, scope='session')
 
@@ -58,12 +59,14 @@ def pytest_configure(config):
 
 
 ########################################################################################################################
-@pytest.fixture(scope='session')
+#@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def log():
     return logger
 
 
-@pytest.yield_fixture(scope="session")
+#@pytest.yield_fixture(scope="session")
+@pytest.yield_fixture(scope="function")
 def _browser(sets):
     logger.info('Selenium: open browser')
     url = os.getenv('URL', 'https://rc.sylogent.com/ps/Landing/Login.aspx')
@@ -88,7 +91,7 @@ def _browser(sets):
     browser_binding.quit()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def frontend(_browser):
     # чистить куки, и еще что-нибудь
     # Добавляем инфу о пользователе

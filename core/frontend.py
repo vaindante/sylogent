@@ -126,3 +126,7 @@ class Steps(__Base):
     @allure.step('Select element by name')
     def click_element_by_tag(self, name):
         self._browser.get_by_name(name).click()
+
+    @allure.step('clean cookie')
+    def clean_cookie(self):
+        self._browser.clean.c
