@@ -7,6 +7,8 @@ from io import StringIO
 import pytest
 from allure.constants import AttachmentType
 
+from utils.tools import close_popups
+
 _beautiful_json = dict(indent=2, ensure_ascii=False, sort_keys=True)
 
 # LOGGING console ####################################################################################################
@@ -55,6 +57,7 @@ class CustomLogger(logging.Logger):
     def attach_selenium_screenshot(self, attach_name, selenium_driver):
         if selenium_driver:
             try:
+                close_popups(selenium_driver)
                 self.debug('Attach screenshot')
                 self.attach_png(attach_name, selenium_driver.get_screenshot_as_png())
                 self.debug('...Done')

@@ -32,7 +32,7 @@ class Authorization(__Base):
 class Steps(__Base):
     spaces = re.compile(r'\s+')
 
-    @allure.step('Click on  {1} button ')
+    @allure.step('Click on {1} button')
     def click_button(self, name, text=False):
         if not text:
             el = self._browser.get_by_id(name)
@@ -71,7 +71,8 @@ class Steps(__Base):
         self._browser.get_by_xpath(f'{t}//*[contains(text(), "{name}")]').click()
 
     def choose_on_table(self, name):
-        self._browser.get_by_xpath(f'//table//td[contains(text(), "{name}")]', is_elements_list=True, need_fail=False).click()
+        self._browser.get_by_xpath(f'//table//td[contains(text(), "{name}")]', is_elements_list=True,
+                                   need_fail=False).click()
 
     def fill_table(self, table):
         for key, value in table.items():
@@ -105,7 +106,9 @@ class Steps(__Base):
         xpath = '//tr[@id="%s"]//td//span[contains(text(), "%s")]/../..//input[contains(@id, "%s")]'
         self._browser.get_by_id('img_%s' % task_id).click()
         for k, v in config.items():
-            self._browser.get_by_xpath(xpath % (task_id, k, v)).click()
+            el = self._browser.get_by_xpath(xpath % (task_id, k, v))
+            self._browser.scroll(el)
+            el.click()
 
     @allure.step('Setup filter')
     def set_filter(self, name, value):
@@ -128,11 +131,3 @@ class Steps(__Base):
     @allure.step('Select element by name')
     def click_element_by_tag(self, name):
         self._browser.get_by_name(name).click()
-
-    @allure.step('clean cookie')
-    def clean_cookie(self):
-        self._browser.clean.cookie
-
-    @allure.step('Click on button {1}')
-    def click_button(self, name):
-        self._browser.get_by_id(name).click()

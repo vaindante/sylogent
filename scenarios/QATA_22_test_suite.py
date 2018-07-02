@@ -14,12 +14,11 @@ def test_qata_22(log, frontend):
     frontend.navigate('Resources/Authors')
     frontend.set_filter('Membership', 'cbExternal')
     assert any('External' == v for v in frontend.get_values_on_table(8))
-    frontend.goto('ClearFilter')
-    #frontend.click_button('Clear Filters', text=True)
+    frontend.click_button('ClearFilter')
+    # frontend.click_button('Clear Filters', text=True)
 
     frontend.navigate('Resources/Authors')
     frontend.set_filter('Membership', 'ctl00_Main_cbInternal')
     assert any('Internal' == v for v in frontend.get_values_on_table(8))
-    frontend.goto('ClearFilter')
-    #frontend.click_button('Clear Filters', text=True)
-
+    frontend.click_button('ClearFilter')
+    # frontend.click_button('Clear Filters', text=True)

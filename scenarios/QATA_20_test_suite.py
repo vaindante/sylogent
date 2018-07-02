@@ -1,7 +1,8 @@
 from time import sleep
 
-
 import pytest
+
+from utils.tools import close_popups
 
 
 @pytest.allure.story('Procedure  Test Suite QATA - 20')
@@ -20,8 +21,8 @@ def test_qata_20(log, frontend):
     log.attach_selenium_screenshot('TYPE', frontend.driver)
 
     frontend.choose_checkbox('Abstract Restyle and Resubmit')
-    #frontend.choose_checkbox('Allow selection of any study', test=True)
-    #frontend.choose_on_table('ADD NAME FOR 13329')
+    # frontend.choose_checkbox('Allow selection of any study', test=True)
+    # frontend.choose_on_table('ADD NAME FOR 13329')
 
     log.attach_selenium_screenshot('STUDIES', frontend.driver)
 
@@ -70,15 +71,4 @@ def test_qata_20(log, frontend):
     frontend.click_button('PageFrame1_btnFinish')
     sleep(3)
 
-
-    frontend.click_button('All')
-
-
-    frontend._browser.close_all_popups()
-
-    #frontend.click_button('All')
-    # Ждем окончания запросов
-    sleep(3)
-    frontend.navigate('Project')
-
-
+    close_popups(frontend.driver)

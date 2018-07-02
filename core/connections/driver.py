@@ -5,7 +5,7 @@ from json import dumps
 
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, UnexpectedAlertPresentException, \
-    NoAlertPresentException, WebDriverException
+    WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -14,6 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from exceptions import SeleniumWebDriverError, SeleniumBrowserNotStarting, SeleniumWebElementError
 from logger import logger
+from utils.tools import close_popups
 
 
 class ReconnectForDriver:
@@ -24,11 +25,7 @@ class ReconnectForDriver:
         def wrapper(*args, **kwargs):
             for attempt in range(2, -1, -1):
                 try:
-                    try:
-                        instance.close_all_popups()
-                    except NoAlertPresentException:
-                        pass
-
+                    close_popups(instance.driver)
                     self.method(instance, *args, **kwargs)
                     break
 
@@ -43,6 +40,18 @@ class ReconnectForDriver:
             else:
                 logger.fatal('Все плохо, прям совсем %s' % instance)
                 raise SeleniumBrowserNotStarting()
+
+        return wrapper
+
+
+class ClosePopups:
+    def __init__(self, method):
+        self.method = method
+
+    def __get__(self, instance, owner):
+        def wrapper(*args, **kwargs):
+            close_popups(instance.driver)
+            self.method(instance, *args, **kwargs)
 
         return wrapper
 
@@ -314,6 +323,7 @@ class SeleniumWebDriver:
         ]
 
     # Selenium tools ###################################################################################################
+    @ClosePopups
     def save_screenshot(self, save_path):
         # Get screenshot
         self.driver.save_screenshot(save_path)
@@ -414,15 +424,7 @@ class SeleniumWebDriver:
         return self._get_element('name', name, need_fail=need_fail, is_elements_list=is_elements_list,
                                  custom_time_out=custom_time_out)
 
-    def close_all_popups(self):
-        # Закрытие iframe
-        try:
-            alert = self.driver.switch_to.alert
-            if alert is not None:
-                alert.accept()
-        except NoAlertPresentException:
-            pass
-
+    @ClosePopups
     def scroll(self, element_move):
         act = ActionChains(self.driver)
         # передвигаем до нужного нам элемента

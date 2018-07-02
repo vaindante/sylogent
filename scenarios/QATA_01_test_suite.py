@@ -1,7 +1,8 @@
-import pytest
 from time import sleep
 
 import pytest
+
+from utils.tools import close_popups
 
 
 @pytest.fixture()
@@ -16,9 +17,10 @@ def prepare(frontend):
 
 @pytest.allure.story('QA-PS-01-Application-UAT-Verification')
 @pytest.mark.test_01
-#@pytest.mark.tmp
+@pytest.mark.tmp
+@pytest.mark.usefixtures('prepare')
 @pytest.mark.parametrize('nav', ('Tasks', 'Projects', 'Targets', 'Studies', 'Resources/Authors', 'Reports'))
-def test_qata_01(log, frontend, nav, prepare):
+def test_qata_01(log, frontend, nav):
     frontend.navigate(nav)
     frontend.navigate('Tasks')
 
@@ -60,7 +62,6 @@ def test_qata_01(log, frontend, nav, prepare):
     log.attach_selenium_screenshot('calendar', frontend.driver)
 
 
-
 # @pytest.mark.deb
 # def test_qata_20_2(prepare, frontend, log):
 #     frontend.navigate('Tasks')
@@ -75,18 +76,17 @@ def test_qata_01(log, frontend, nav, prepare):
 
 @pytest.allure.story('QA-PS-28-Create:Restyle and Resubmit Project ')
 @pytest.mark.test_02
-#@pytest.mark.tmp
+# @pytest.mark.tmp
 @pytest.mark.usefixtures('prepare')
 def test_qata_02(log, frontend):
-
     frontend.navigate('Project')
     log.attach_selenium_screenshot('Project Wizard', frontend.driver)
     frontend.choose_tab('Create')
     log.attach_selenium_screenshot('TYPE', frontend.driver)
 
     frontend.choose_checkbox('Abstract Restyle and Resubmit')
-    #frontend.choose_checkbox('Allow selection of any study', test=True)
-    #frontend.choose_on_table('ADD NAME FOR 13329')
+    # frontend.choose_checkbox('Allow selection of any study', test=True)
+    # frontend.choose_on_table('ADD NAME FOR 13329')
 
     log.attach_selenium_screenshot('STUDIES', frontend.driver)
 
@@ -135,11 +135,10 @@ def test_qata_02(log, frontend):
     frontend.click_button('PageFrame1_btnFinish')
     sleep(3)
 
-
     frontend.click_button('All')
 
+    close_popups(frontend.driver)
 
-    frontend._browser.close_all_popups()
 
 @pytest.mark.test_1
 def test_qata_1(frontend):

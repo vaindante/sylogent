@@ -31,10 +31,13 @@ def pytest_generate_tests(metafunc):
             "sets", settings['browser_list'],
             scope='session'
         )
-    if 'test_user' in metafunc.fixturenames:
-        pass
-        result = requests.get('http://localhost:8888/user_list').json()
-        metafunc.parametrize('test_user', result, scope='session')
+    try:
+        if 'test_user' in metafunc.fixturenames:
+            result = requests.get('http://localhost:8888/user_list').json()
+            metafunc.parametrize('test_user', result, scope='session')
+    except Exception as e:
+        metafunc.parametrize('test_user', [], scope='session')
+        logger.error(e)
 
 
 def pytest_configure(config):
@@ -59,15 +62,15 @@ def pytest_configure(config):
 
 
 ########################################################################################################################
-#@pytest.fixture(scope='session')
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='session')
 def log():
+    # Нам нужен один логгер на всю пачку тестов)
     return logger
 
 
-#@pytest.yield_fixture(scope="session")
-@pytest.yield_fixture(scope="function")
+@pytest.yield_fixture(scope="session")
 def _browser(sets):
+    # и браузер надо рестартовать только если что-то сломалось.
     logger.info('Selenium: open browser')
     url = os.getenv('URL', 'https://rc.sylogent.com/ps/Landing/Login.aspx')
     browser_binding = SeleniumWebDriver(**{
