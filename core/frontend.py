@@ -92,6 +92,7 @@ class Steps(__Base):
         if value != el.value:
             el.click()
 
+    @allure.step('Choose Author')
     def choose_authors(self, name, authors_list):
         xpath = f'''//select[contains(@name , "{self.spaces.sub('', name)}")]/option[contains(text(), "%s")]'''
         for v in authors_list:
@@ -106,6 +107,7 @@ class Steps(__Base):
         for k, v in config.items():
             self._browser.get_by_xpath(xpath % (task_id, k, v)).click()
 
+    @allure.step('Setup filter')
     def set_filter(self, name, value):
         xpath = f'//th//a[contains(text(), "{name}")]/../'
         el = self._browser.get_by_xpath('%s/*[@data-action="filter-trigger"]' % xpath)
@@ -129,4 +131,8 @@ class Steps(__Base):
 
     @allure.step('clean cookie')
     def clean_cookie(self):
-        self._browser.clean.c
+        self._browser.clean.cookie
+
+    @allure.step('Go on button {1}')
+    def click_button(self, name):
+        self._browser.get_by_id(name).click()

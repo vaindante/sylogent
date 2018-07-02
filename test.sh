@@ -2,6 +2,7 @@
 export LANG=en_US.UTF-8
 
 export URL=https://rc.sylogent.com/ps/Landing/Login.aspx
+export URL_Test = https://test.sylogent.com/ps/Landing/Login.aspx
 
 export PYTHONUNBUFFERED=1
 export LOGGING_LEVEL=INFO
