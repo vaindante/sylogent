@@ -76,12 +76,9 @@ def test_qata_20(log, frontend):
 
     frontend._browser.close_all_popups()
 
-    frontend.refresh()
     #frontend.click_button('All')
     # Ждем окончания запросов
     sleep(3)
-    #frontend.navigate('Project')
+    frontend.navigate('Project')
 
-@pytest.mark.test_1
-def test_qata_1(frontend):
-    pass
+

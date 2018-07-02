@@ -133,6 +133,6 @@ class Steps(__Base):
     def clean_cookie(self):
         self._browser.clean.cookie
 
-    @allure.step('Go on button {1}')
+    @allure.step('Click on button {1}')
     def click_button(self, name):
         self._browser.get_by_id(name).click()
