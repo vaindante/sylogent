@@ -4,8 +4,8 @@ import pytest
 
 
 @pytest.allure.story('Task Filters Validation')
-@pytest.mark.test_07
-def test_qata_07(log, frontend):
+@pytest.mark.test_03
+def test_qata_03(log, frontend):
     frontend.open_url('https://rc.sylogent.com/ps/Landing/Login.aspx')
     frontend.authorization.login(frontend.login, frontend.passwd)
     frontend.goto('PubSTRAT')
@@ -23,7 +23,7 @@ def test_qata_07(log, frontend):
     frontend.goto('ClearFilter')
 
     frontend.set_filter('Req', 'FilterReq')
-    frontend.click_button('cbReq')
+    frontend.click_button('cbReq', text=True)
 
     #frontend.click_button('Clear Filters', text=True)
 
