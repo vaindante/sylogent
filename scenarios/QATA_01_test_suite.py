@@ -2,7 +2,6 @@ from time import sleep
 
 import pytest
 
-from utils.tools import close_popups
 
 
 @pytest.fixture()
@@ -15,7 +14,7 @@ def prepare(frontend):
     frontend.choose_in_dropdown('Program QA')
 
 
-@pytest.allure.story('QA-PS-01-Application-UAT-Verification')
+@pytest.allure.story('QA-PS-01-Application-UAT-Verification - Full Regression Test Suite')
 @pytest.mark.test_01
 @pytest.mark.tmp
 @pytest.mark.usefixtures('prepare')
@@ -57,89 +56,8 @@ def test_qata_01(log, frontend, nav):
     frontend.navigate('Reports')
     frontend.choose_tab('Alerts')
     log.attach_selenium_screenshot('reports', frontend.driver)
+    sleep(3)
+
 
     frontend.navigate('Calendar')
     log.attach_selenium_screenshot('calendar', frontend.driver)
-
-
-# @pytest.mark.deb
-# def test_qata_20_2(prepare, frontend, log):
-#     frontend.navigate('Tasks')
-#
-#     frontend.click_button('Active')
-#     frontend.click_button('Future')
-#
-#
-# # @pytest.mark.deb
-# def test_qata_20_3(prepare, frontend, log):
-#     frontend.navigate('Studies')
-
-@pytest.allure.story('QA-PS-28-Create:Restyle and Resubmit Project ')
-@pytest.mark.test_02
-# @pytest.mark.tmp
-@pytest.mark.usefixtures('prepare')
-def test_qata_02(log, frontend):
-    frontend.navigate('Project')
-    log.attach_selenium_screenshot('Project Wizard', frontend.driver)
-    frontend.choose_tab('Create')
-    log.attach_selenium_screenshot('TYPE', frontend.driver)
-
-    frontend.choose_checkbox('Abstract Restyle and Resubmit')
-    # frontend.choose_checkbox('Allow selection of any study', test=True)
-    # frontend.choose_on_table('ADD NAME FOR 13329')
-
-    log.attach_selenium_screenshot('STUDIES', frontend.driver)
-
-    frontend.click_button('btnSaveStudies')
-    frontend.click_button_on_modal_dialog('Yes')
-
-    frontend.fill_table(
-        {
-            'Title': 'Test_June14/2018- do not remove',
-            'Project Champion Message': 'Audit, Jim – Austria',
-        }
-    )
-    frontend.choose_on_dropdown_in_table('Project Champion', 'Audit, Jim - Austria')
-    # frontend.choose_on_dropdown_in_table('Language', 'English', _id='10594')
-    log.attach_selenium_screenshot('GENERAL', frontend.driver)
-
-    frontend.click_button('btnSaveGeneral')
-    # frontend.click_button_on_modal_dialog('Yes')
-
-    frontend.click_button('PageFrame1_btnSaveTarget')
-    # frontend.click_button_on_modal_dialog('Yes')
-    log.attach_selenium_screenshot('TARGET tab', frontend.driver)
-
-    frontend.set_checkbox_in_table('Deadline Can Slip', True)
-    log.attach_selenium_screenshot('TIMELINE', frontend.driver)
-    frontend.click_button('PageFrame1_btnSaveTimeLine')
-
-    frontend.choose_checkbox('ow selection of any clinical finding', test=True)
-    log.attach_selenium_screenshot('CLINICAL FINDINGS', frontend.driver)
-    frontend.click_button('PageFrame1_btnSaveClinicalFindings')
-
-    frontend.choose_on_dropdown_in_table('Lead Author', 'Admin, Sylogent')
-    frontend.choose_authors('Other Authors', ('Mark',))
-    log.attach_selenium_screenshot('AUTHORS', frontend.driver)
-    frontend.click_button('PageFrame1_btnSaveAuthors')
-
-    frontend.config_task(
-        'Task 1',
-        {
-            'Admin, Sylogent': 'req'
-        }
-    )
-    log.attach_selenium_screenshot('TASKS AND RESOURCES', frontend.driver)
-    frontend.click_button('btnSaveTasksAndResources')
-    log.attach_selenium_screenshot('SUMMARY', frontend.driver)
-    frontend.click_button('PageFrame1_btnFinish')
-    sleep(3)
-
-    frontend.click_button('All')
-
-    close_popups(frontend.driver)
-
-
-@pytest.mark.test_1
-def test_qata_1(frontend):
-    pass
