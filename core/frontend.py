@@ -110,7 +110,7 @@ class Steps(__Base):
             self._browser.scroll(el)
             el.click()
 
-    @allure.step('Setup filter')
+    @allure.step('Setup filter for {1}')
     def set_filter(self, name, value):
         xpath = f'//th//a[contains(text(), "{name}")]/../'
         el = self._browser.get_by_xpath('%s/*[@data-action="filter-trigger"]' % xpath)
