@@ -52,7 +52,7 @@ def test_qata_02(log, frontend):
     frontend.set_filter('Role', 'FilterRole')
     frontend.goto('ClearFilter')
 
-@pytest.allure.story('Reports/Alerts -Table Filters Validation')
+@pytest.allure.story('Reports/Alerts Filters Validation')
 @pytest.mark.test_06
 def test_qata_03(log, frontend):
     frontend.open_url('https://rc.sylogent.com/ps/Landing/Login.aspx')

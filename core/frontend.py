@@ -77,7 +77,7 @@ class Steps(__Base):
         self._browser.get_by_xpath(f'//table//td[contains(text(), "{name}")]', is_elements_list=True,
                                    need_fail=False).click()
 
-    @allure.step('Fill table {1} / verify ')
+    @allure.step('Fill table {1} and verify ')
     def fill_table(self, table):
         for key, value in table.items():
             el = self._browser.get_by_xpath(f'''//textarea[contains(@name, "{self.spaces.sub('', key)}")]''')
