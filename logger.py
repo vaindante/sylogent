@@ -12,11 +12,11 @@ from utils.tools import close_popups
 _beautiful_json = dict(indent=2, ensure_ascii=False, sort_keys=True)
 
 # LOGGING console ####################################################################################################
-# Резервируем имя для кастомного уровня логгирования
+# Reserved name for custom logging
 logging.addLevelName(15, "SUBDEBUG")
 logging.addLevelName(5, "TEST")
 
-# Форматирование лога
+# Logger formating
 log_formatter = logging.Formatter("%(asctime)s [%(threadName)s] [%(levelname)s] - %(message)s",
                                   datefmt='%Y-%m-%d %H:%M:%S')
 
@@ -24,17 +24,17 @@ log_formatter = logging.Formatter("%(asctime)s [%(threadName)s] [%(levelname)s] 
 class CustomLogger(logging.Logger):
     test_log = StringIO()
 
-    # Метод форматирования сообщения
+    # Metod formating message
     @staticmethod
     def format_message(message):
         return json.dumps(message, **_beautiful_json) if isinstance(message, (dict, list, tuple)) else str(message)
 
-    # Кастомный уровень логирования
+    # Custom level of logging
     def subdebug(self, message, *args, **kwargs):
         if self.isEnabledFor(15):
             self._log(15, message, args, **kwargs)
 
-    # Метод для прикрепления данных к репорту (завязали на единый класс)
+    # Method to attached data to report (one class dependency)
     def attach_debug(self, name, message):
         if self.isEnabledFor(10):
             pytest.allure.attach(name, self.format_message(message))
@@ -66,7 +66,7 @@ class CustomLogger(logging.Logger):
                 pytest.allure.attach(attach_name, str(e))
 
         else:
-            self.error('Нет браузера')
+            self.error('No browser is define')
 
     def add_handler(self, file_name, mode='a'):
         file_handler = logging.FileHandler(filename=file_name, mode=mode)
@@ -76,20 +76,20 @@ class CustomLogger(logging.Logger):
 
 
 def setup_logging():
-    # Настройка логирования
+    # Logging setup
     logger = CustomLogger('root')
 
-    # Уровень вывода
+    # Level of handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(os.getenv('LOGGING_LEVEL_TO_CONSOLE', 'WARN'))
-    # Устанавливаем формат сообщений
+    # Create a method of message
     console_handler.setFormatter(log_formatter)
     logger.addHandler(console_handler)
 
-    # Уровень вывода
+    # Level of handler
     string_io = logging.StreamHandler(logger.test_log)
     string_io.setLevel(os.getenv('LOGGING_LEVEL', 'INFO'))
-    # Устанавливаем формат сообщений
+    # Create a method of message
     string_io.setFormatter(log_formatter)
     logger.addHandler(string_io)
     return logger

@@ -78,13 +78,13 @@ def _browser(sets):
         'local': settings.get('local'),
         **settings['browser_list'][sets]
     })
-    # Сохраняем уникальный id окна and url
+    # Save uniquewindow id for url
     browser_binding.window = {
         'window': browser_binding.driver.window_handles[0],
         'url': url
     }
 
-    # Очищаем куки, открываем или перезагружаем страницу
+    # clean browser cookie
     browser_binding.open_url(url)
     browser_binding.get_cookies()
 
@@ -96,8 +96,7 @@ def _browser(sets):
 
 @pytest.fixture(scope='function')
 def frontend(_browser):
-    # чистить куки, и еще что-нибудь
-    # Добавляем инфу о пользователе
+
     _browser.reload()
     return Frontend(_browser, os.getenv('LOGIN', 'test'), os.getenv('PASSWD', 'test'))
 

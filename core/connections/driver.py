@@ -32,13 +32,13 @@ class ReconnectForDriver:
                 except Exception as e:
                     # return instance
                     instance.status = 'restart'
-                    logger.warning('Произошла ошибка c браузером %s' % instance.node_info, exc_info=e)
+                    logger.warning('Browser error %s' % instance.node_info, exc_info=e)
                     if instance.node_connect_retry_count:
                         instance.node_connect_retry_count -= 1
                         instance.restart_session()
 
             else:
-                logger.fatal('Все плохо, прям совсем %s' % instance)
+                logger.fatal('Fatal error %s' % instance)
                 raise SeleniumBrowserNotStarting()
 
         return wrapper
@@ -57,10 +57,9 @@ class ClosePopups:
 
 
 class SeleniumWebElement(WebElement):
-    # регулярки
-    # Проверяем, что строка, является числом, целым или вещественным
+    #
     __re_number = re.compile('^[+-]?[\d]*[.,]?\d+$')
-    # Для удаление всех спец символов из значения
+    #
     __re_formatting = re.compile('^|\?|\n|\r|\t|\s|$')
 
     def __init__(self, *args, **kwargs):
@@ -87,7 +86,7 @@ class SeleniumWebElement(WebElement):
     def disabled(self):
         get = self.get_attribute('disabled')
 
-        # обертка для disabled
+        # wrap for  disabled
         if get == 'true':
             get = 'inactive'
 
@@ -102,7 +101,7 @@ class SeleniumWebElement(WebElement):
 
     @property
     def value(self):
-        # Вспомогательные функции
+        # Extra helping functions
         def is_str_to_float(v):
             if self.__re_number.search(self.__re_formatting.sub('', v)):
                 return True
@@ -116,10 +115,10 @@ class SeleniumWebElement(WebElement):
                 ), 3
             )
 
-        # Список позиций откуда мы получаем значение
+        # List
         attribute_list = ('value',)
 
-        # Пробуем получить значение
+        # Tru to get attribute
         for atr in attribute_list:
             value = self.get_attribute(atr)
             if value:
@@ -127,13 +126,13 @@ class SeleniumWebElement(WebElement):
         else:
             value = self.text.strip()
 
-        # Проверяем что элемент не чекбокс
+        # Checking the value is not a check box
         if self.get_attribute('type') == 'checkbox':
             value = self.get_attribute('checked')
             return value if value else False
 
         else:
-            # Преобразуем значение к нужному формату.
+            # Reformat message.
             if is_str_to_float(value):
                 return str_to_float(value)
 
@@ -168,32 +167,32 @@ class SeleniumWebElement(WebElement):
 
     def click(self, attempt=3):
         self.__web_element_wait__()
-        # Количество попыток кликнуть
+        # Amount of attempts
         error = None
         for _ in range(attempt):
             try:
                 super().click()
                 break
             except WebDriverException as e:
-                logger.warning('Не смог кликнуть')
+                logger.warning('Not possible to click')
                 error = e
         else:
             raise error
 
     def send_keys(self, keys):
         self.__web_element_wait__()
-        # Исключаем из проверки значения
+        # Remove from validation
         for _ in range(5):
             self.clear()
             if not self.get_attribute('value'):
                 break
             else:
-                logger.warning('Не смог очистить')
+                logger.warning('Not possible to clean ')
                 time.sleep(.001)
         else:
-            logger.fatal('Это какой-то полный пиздец товарищи Значение после 5 ебанных очисток: %r' % self.value)
+            logger.fatal('Fatal Error: %r' % self.value)
 
-        logger.debug('Значение после очисток %r' % self.value)
+        logger.debug('Value %r' % self.value)
         super().send_keys(keys)
 
     def clear(self):
@@ -228,9 +227,9 @@ class SeleniumWebElement(WebElement):
 
 class SeleniumWebDriver:
     # Get selenium driver
-    # Информация о использованных ссесиях
+    # Information about session
     session_info = []
-    # Информация о текущих окнах
+    # ИInformation about current windows
     window = {}
     cookies = None
     status = None
@@ -260,7 +259,7 @@ class SeleniumWebDriver:
         self.open_url(url)
 
     def start_session(self):
-        # Пытаемся подключиться к selenium ноде (делаем 3 попытки)
+        # 3 attempts to get a nood
         logger.info('Selenium: create new object driver(browser)')
         if os.getenv('USE_LOCALHOST', None) or getattr(self, 'local', None):
             self.driver = getattr(webdriver, self.browser_name)(
@@ -274,7 +273,7 @@ class SeleniumWebDriver:
                 desired_capabilities=self.capabilities
             )
 
-        # Подменяем класс, если мы хотим работать со своим классом, то и получать должны его
+        #
         self.driver._web_element_cls = SeleniumWebElement
 
         # Set selenium driver parameters
@@ -293,7 +292,7 @@ class SeleniumWebDriver:
         self.session_info.append(self.node_info)
         logger.info('Session: %s' % self)
 
-    # Полная перезагрузка браузера с создание нового объекта и новых окон
+    # Full
     def restart_session(self):
         self.start_session()
         self.open_url(self.window['url'])
@@ -301,12 +300,12 @@ class SeleniumWebDriver:
     def get_cookies(self):
         self.cookies = {v['name']: v['value'] for v in self.driver.get_cookies()}
 
-    # Сброс кэша и перезагрузка страница для автономности тестов
+    # clean cash
     @ReconnectForDriver
     def reload(self):
         self.status = 'clean'
         if self.status != 'started':
-            logger.subdebug('Очистка окна %r с url %r' % (self.window['window'], self.window['url']))
+            logger.subdebug('Clean  %r с url %r' % (self.window['window'], self.window['url']))
 
             self.driver.switch_to_window(self.window['window'])
             self.driver.execute_script('window.localStorage.clear(); location.reload();')
@@ -356,11 +355,11 @@ class SeleniumWebDriver:
     def _get_element(self, path_type, element_path, need_fail=True, custom_time_out=None, is_elements_list=False):
         """
         Get element
-                :param path_type: тип локатора
-                :param element_path: путь элемента
-                :param need_fail: Вернуть значение need_fail (None, False)
-                :param custom_time_out: Время ожидения элемента
-                :param is_elements_list: Будет возращать список елементов вместо одного
+                :param path_type: locator part
+                :param element_path: Path
+                :param need_fail: Return value need_fail (None, False)
+                :param custom_time_out: Time of element
+                :param is_elements_list: Return list of elements
                 :return:
         """
 
@@ -379,13 +378,13 @@ class SeleniumWebDriver:
 
         try:
             if not is_elements_list:
-                # Очень нужная, вещь, так как при ошибки с элементом, мы понятия не имеем, какой элемент мы запросили.
-                logger.debug('Получение элемента тип %r путь %r' % (path_type, element_path))
+                #
+                logger.debug('Get list of elements %r path %r' % (path_type, element_path))
                 return WebDriverWait(self.driver, time_out).until(
                     expected_conditions.presence_of_element_located((__type.get(path_type), element_path))
                 )
             else:
-                logger.debug('Получение списка элементов тип %r путь %r' % (path_type, element_path))
+                logger.debug('Get list of elements %r path %r' % (path_type, element_path))
                 return WebDriverWait(self.driver, time_out).until(
                     expected_conditions.presence_of_all_elements_located((__type.get(path_type), element_path))
                 )
@@ -427,9 +426,9 @@ class SeleniumWebDriver:
     @ClosePopups
     def scroll(self, element_move):
         act = ActionChains(self.driver)
-        # передвигаем до нужного нам элемента
+        # scroll to elements
         act.move_to_element(element_move).move_by_offset(10, 30)
         time.sleep(.5)
-        # Все отображаем
+        # Show
         act.perform()
         time.sleep(.2)
