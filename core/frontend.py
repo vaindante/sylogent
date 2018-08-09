@@ -7,6 +7,8 @@ from exceptions import FailStep
 
 
 class __Base:
+    wait = lambda s, x: sleep(x)
+
     def __init__(self, browser):
         self._browser = browser
 
@@ -58,7 +60,8 @@ class Steps(__Base):
 
     @allure.step('Go to {1}')
     def navigate(self, name):
-        el = self._browser.get_by_xpath(f'//ul[@class="navigation"]//a[contains(text(), "{name}")]')
+        el = self._browser.get_by_xpath(f'//div[@class="Component"]//*[contains(text(), "{name}")]')
+        self._browser.scroll(el)
         el.click()
 
     @allure.step('Select {1} table tab')
@@ -74,9 +77,9 @@ class Steps(__Base):
         self._browser.get_by_xpath(f'//table//td[contains(text(), "{name}")]', is_elements_list=True,
                                    need_fail=False).click()
 
-    def fill_table(self, table):
+    def fill_table(self, table, type_='textarea'):
         for key, value in table.items():
-            el = self._browser.get_by_xpath(f'''//textarea[contains(@name, "{self.spaces.sub('', key)}")]''')
+            el = self._browser.get_by_xpath(f'''//{type_}[contains(@name, "{self.spaces.sub('', key)}")]''')
             el.send_keys(value)
 
     @allure.step('Select {1} in drop-down')
