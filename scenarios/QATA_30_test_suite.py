@@ -8,7 +8,7 @@ def get_values(driver, xpath, atr):
 
 @pytest.allure.story('Task Filters Validation')
 @pytest.mark.test_30
-def test_qata_30(log, frontend):
+def test_qata_01(log, frontend):
     frontend.open_url('https://rc.sylogent.com/ps/Landing/Login.aspx')
     frontend.authorization.login(frontend.login, frontend.passwd)
     frontend.goto('PubSTRAT')
@@ -33,10 +33,10 @@ def test_qata_30(log, frontend):
     frontend.click_button('add new', text=True)
     frontend.fill_table(
         {
-            'StartDate$Date': '12/12/2018',
-            'EndDate$Date': '25/12/2018',
+            'StartDate$Date': '10/10/2018',
+            'EndDate$Date': '10/10/2018',
             'Description': 'test'
         },
         type_='input'
     )
-    frontend.click_button('submit', text=True)
+    frontend.click_button('SUBMIT', text=True)
